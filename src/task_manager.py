@@ -6,9 +6,16 @@ from models import Task
 class TaskManager:
     def __init__(self):
         self.tasks = {}
-    
+        self.next_id = 1
+
     def add_task(self, task: Task):
         self.tasks[task.id] = task
+        self.next_id = max(self.next_id, task.id + 1)
+
+    def create_task(self, title):
+        task = Task(id=self.next_id, title=title)
+        self.add_task(task)
+        return task
     
     def remove_task(self, task_id: int):
         if task_id in self.tasks:
